@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ project_name }}{% endblock %}</title>
+
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+
+    <!-- Optional: HTMX extensions -->
+    <!-- <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script> -->
+
+    <!-- Tailwind CSS (optional, remove if not using) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% block body %}
+    <div class="container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </div>
+    {% endblock %}
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

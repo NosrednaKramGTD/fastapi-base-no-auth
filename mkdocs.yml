@@ -1,0 +1,55 @@
+site_name: Project Name
+site_description: Project Description
+site_author: Your Name
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.annotate
+    - content.code.copy
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: "!!python/name:pymdownx.superfences.fence_code_format"
+  - pymdownx.tabbed
+  - pymdownx.tasklist
+  - admonition
+  - pymdownx.details
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+plugins:
+  - search
+  - mermaid2
+nav:
+  - Home: index.md
+  - Guides:
+      - Getting Started: development/guides/getting_started.md
+      - HTMX Templating: development/guides/htmx_templating.md
+      - Adding Authentication: development/guides/adding_authentication.md
+      - Git Pull Strategies: development/guides/git_pull_strategies.md
+      - Git SSH Configuration: development/guides/git_ssh_configuration.md
+      - Version Control: development/guides/version_control.md
