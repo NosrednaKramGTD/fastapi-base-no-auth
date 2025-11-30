@@ -1,0 +1,185 @@
+# Cursor Rules - Separation of Concerns & Production Best Practices
+
+## Architecture & Separation of Concerns
+
+### Layered Architecture
+
+- Maintain clear separation between presentation, business logic, and data access layers
+- Each layer should only depend on layers below it, never above
+- Use dependency injection to decouple components
+- Avoid circular dependencies between modules
+
+### Single Responsibility Principle
+
+- Each class, function, and module should have one clear purpose
+- Functions should do one thing and do it well
+- Split large functions into smaller, focused functions
+- Keep classes focused on a single domain concept
+
+### Domain-Driven Design
+
+- Organize code by domain/business logic, not technical concerns
+- Keep domain models independent of infrastructure
+- Use repositories for data access abstraction
+- Separate application services from domain logic
+
+### Dependency Management
+
+- Depend on abstractions (interfaces/protocols), not concrete implementations
+- Use dependency injection containers or factory patterns
+- Avoid global state and singletons where possible
+- Make dependencies explicit in function signatures
+
+## Production Best Practices
+
+### Error Handling & Resilience
+
+- Always handle exceptions explicitly; never use bare `except:` clauses
+- Use specific exception types, not generic `Exception`
+- Implement proper error logging with context (stack traces, request IDs, user context)
+- Create custom exception classes for domain-specific errors
+- Use try-except-finally blocks appropriately
+- Implement retry logic with exponential backoff for transient failures
+- Add circuit breakers for external service calls
+- Validate inputs at system boundaries
+
+### Logging & Observability
+
+- Use structured logging (JSON format in production)
+- Include correlation IDs/trace IDs for request tracking
+- Log at appropriate levels: DEBUG, INFO, WARNING, ERROR, CRITICAL
+- Never log sensitive information (passwords, tokens, PII)
+- Include context in log messages (user ID, request ID, operation)
+- Use logging libraries (e.g., structlog, python-json-logger) for structured logs
+- Implement health check endpoints for monitoring
+
+### Security
+
+- Never hardcode secrets, API keys, or credentials
+- Use environment variables or secret management services
+- Validate and sanitize all user inputs
+- Use parameterized queries to prevent SQL injection
+- Implement proper authentication and authorization
+- Follow principle of least privilege
+- Use HTTPS for all external communications
+- Implement rate limiting and request throttling
+- Sanitize error messages to avoid information leakage
+
+### Testing
+
+- Write unit tests for all business logic
+- Aim for high code coverage (>80%) on critical paths
+- Use integration tests for external dependencies
+- Implement end-to-end tests for critical user flows
+- Mock external services and databases in tests
+- Use fixtures and factories for test data
+- Keep tests isolated and independent
+- Test error cases and edge conditions
+- Use property-based testing where appropriate
+
+### Performance & Scalability
+
+- Optimize database queries (avoid N+1 problems, use indexes)
+- Implement caching strategies (Redis, in-memory) where appropriate
+- Use async/await for I/O-bound operations
+- Implement connection pooling for databases
+- Add pagination for large data sets
+- Use lazy loading and generators for large collections
+- Profile code to identify bottlenecks
+- Consider using background jobs for long-running tasks
+
+### Code Quality
+
+- Follow PEP 8 style guidelines
+- Use type hints for all function signatures
+- Write clear, self-documenting code
+- Add docstrings for public APIs and complex logic
+- Keep functions small (<50 lines when possible)
+- Limit function parameters (<5 when possible)
+- Use meaningful variable and function names
+- Remove dead code and commented-out code
+- Keep cyclomatic complexity low
+
+### Configuration Management
+
+- Use configuration files (YAML, TOML, JSON) for environment-specific settings
+- Separate development, staging, and production configurations
+- Use environment variables for sensitive or environment-specific values
+- Validate configuration on application startup
+- Provide sensible defaults where appropriate
+
+### Data Management
+
+- Use database migrations for schema changes
+- Implement proper transaction management
+- Use connection pooling
+- Implement database query timeouts
+- Use read replicas for read-heavy workloads
+- Implement proper data validation at the model/schema level
+- Use ORM features appropriately (avoid over-fetching, use select_related/prefetch_related)
+
+### API Design
+
+- Follow RESTful conventions
+- Version APIs explicitly (e.g., /api/v1/)
+- Use appropriate HTTP status codes
+- Implement request/response validation
+- Document APIs with OpenAPI/Swagger
+- Implement rate limiting per user/IP
+- Use pagination for list endpoints
+- Return consistent error response formats
+
+### Deployment & Operations
+
+- Use containerization (Docker) for consistent deployments
+- Implement graceful shutdown handling
+- Use process managers (systemd, supervisord) in production
+- Implement health checks and readiness probes
+- Use feature flags for gradual rollouts
+- Implement proper backup and disaster recovery procedures
+- Monitor application metrics (CPU, memory, request rates, error rates)
+- Set up alerting for critical errors and performance degradation
+
+## Python-Specific Guidelines
+
+### Type Safety
+
+- Use type hints for all function parameters and return values
+- Use `typing` module for complex types (Optional, Union, List, Dict)
+- Use `dataclasses` or `pydantic` models for structured data
+- Enable type checking with mypy or pyright
+
+### Async/Await
+
+- Use `async`/`await` for I/O-bound operations
+- Use `asyncio` properly (avoid blocking calls in async functions)
+- Use connection pooling for async database operations
+- Handle async context managers correctly
+
+### Resource Management
+
+- Use context managers (`with` statements) for file operations and database connections
+- Implement `__enter__` and `__exit__` for custom context managers
+- Close resources explicitly when context managers aren't available
+
+### Import Organization
+
+- Group imports: standard library, third-party, local
+- Use absolute imports over relative imports
+- Avoid circular imports by restructuring code
+- Use `__init__.py` files appropriately for package structure
+
+## Code Review Checklist
+
+When reviewing or generating code, ensure:
+
+- [ ] Separation of concerns is maintained
+- [ ] Error handling is comprehensive
+- [ ] Logging is appropriate and secure
+- [ ] Security best practices are followed
+- [ ] Tests are included for new functionality
+- [ ] Type hints are present
+- [ ] Documentation is clear
+- [ ] Performance considerations are addressed
+- [ ] Configuration is externalized
+- [ ] Code follows project style guidelines
